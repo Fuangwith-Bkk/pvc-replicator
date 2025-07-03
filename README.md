@@ -100,16 +100,13 @@ The application can be configured through environment variables in the deploymen
 
 ```
 pvc-replicator/
-├── Dockerfile
-├── README.md
+├── Containerfile
+├── src/
+│   ├── replicate.sh
 ├── openshift/
-│   ├── pvc-replicator-pvc.yaml
-│   └── pvc-replicator-deployment.yaml
-└── doc/
-    ├── 1.Topology.png
-    ├── 2.Env.png
-    ├── 3.pod.png
-    └── 4.pvc.png
+    ├── pvc-replicator-pvc.yaml
+    └── pvc-replicator-deployment.yaml
+
 ```
 
 ## 🤝 Contributing
