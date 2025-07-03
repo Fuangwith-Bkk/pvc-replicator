@@ -115,7 +115,3 @@ pvc-replicator/
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit issues and pull requests.
-
-## 📄 License
-
-This project is a demonstration application. Please refer to the repository for licensing information.
