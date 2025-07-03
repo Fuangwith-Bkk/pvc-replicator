@@ -44,11 +44,10 @@ docker login your-registry.com
 docker push your-registry.com/your-org/pvc-replicator:latest
 ```
 
-#### Option B: OpenShift Internal Registry
+#### Option B: Use OpenShift S2I
 
-If using OpenShift's internal registry and ImageStreams, adapt the `Dockerfile` and OpenShift `BuildConfig` accordingly.
-
-> **Note**: Replace `your-registry.com/your-org/pvc-replicator:latest` with your actual image path.
+Go to Developer view -> Add -> Import from Git
+Then Action - > Add Storage 
 
 ### 2. Create Persistent Volume Claims (PVCs)
 
