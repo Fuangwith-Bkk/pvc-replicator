@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-rwo
+spec:
+  accessModes:
+    - ReadWriteOnce # RWO is typically for block storage like gp3-csi
+  resources:
+    requests:
+      storage: 10Gi # <<< Define your desired storage size here
+  storageClassName: gp3-csi # <<< Your StorageClass for RWO
+  volumeMode: Filesystem # Filesystem is the default for most storage classes, but good to be explicit
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-rwx
+spec:
+  accessModes:
+    - ReadWriteMany # RWX is for shared filesystem access
+  resources:
+    requests:
+      storage: 10Gi # <<< Define your desired storage size here
+  storageClassName: ocs-storagecluster-cephfs # <<< Your StorageClass for RWX (CephFS)
+  volumeMode: Filesystem # Crucial for CephFS to be mounted as a directory
