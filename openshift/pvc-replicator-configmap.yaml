@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pvc-replicator-config
+  namespace: YOUR_OPENSHIFT_PROJECT # Replace with your OpenShift project/namespace
+data:
+  # rsync parameters. Example: -avz --delete for archive, verbose, compress, and delete extraneous files
+  # from dest that are not in src.
+  RSYNC_PARAMS: "-avz --delete"
+
+  # Interval in seconds between replication runs.
+  INTERVAL_SECONDS: "300" # 5 minutes

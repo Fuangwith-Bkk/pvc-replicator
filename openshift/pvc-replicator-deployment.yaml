@@ -1,0 +1,70 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pvc-replicator-sa
+  namespace: YOUR_OPENSHIFT_PROJECT # Replace with your OpenShift project/namespace
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pvc-replicator-role
+  namespace: YOUR_OPENSHIFT_PROJECT # Replace with your OpenShift project/namespace
+rules:
+# No specific API permissions are needed for the rsync application itself,
+# as it interacts with mounted PVCs directly through the filesystem.
+# However, if you plan to extend this to, for example, create snapshots or
+# interact with OpenShift APIs, you would add rules here.
+# For this specific requirement, an empty rules list is sufficient as it only needs to run the script.
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"] # Example: If you need to debug or list pods for some reason
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pvc-replicator-rolebinding
+  namespace: YOUR_OPENSHIFT_PROJECT # Replace with your OpenShift project/namespace
+subjects:
+- kind: ServiceAccount
+  name: pvc-replicator-sa
+  namespace: YOUR_OPENSHIFT_PROJECT # Replace with your OpenShift project/namespace
+roleRef:
+  kind: Role
+  name: pvc-replicator-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig # Using DeploymentConfig for OpenShift specific features if needed, otherwise use Deployment
+metadata:
+  name: pvc-replicator
+  namespace: YOUR_OPENSHIFT_PROJECT # Replace with your OpenShift project/namespace
+  labels:
+    app: pvc-replicator
+spec:
+  replicas: 1
+  selector:
+    app: pvc-replicator
+  template:
+    metadata:
+      labels:
+        app: pvc-replicator
+    spec:
+      serviceAccountName: pvc-replicator-sa
+      containers:
+      - name: replicator
+        image: your_registry_url/pvc-replicator:latest # Replace with your actual image URL
+        envFrom:
+        - configMapRef:
+            name: pvc-replicator-config
+        volumeMounts:
+        - name: source-pvc-storage
+          mountPath: /mnt/source
+        - name: destination-pvc-storage
+          mountPath: /mnt/destination
+      volumes:
+      - name: source-pvc-storage
+        persistentVolumeClaim:
+          claimName: source-pvc # Name of your source PVC
+      - name: destination-pvc-storage
+        persistentVolumeClaim:
+          claimName: destination-pvc # Name of your destination PVC
