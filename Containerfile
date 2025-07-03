@@ -1,5 +1,5 @@
-# Use a RHEL 8 base image (adjust version as needed for OpenShift compatibility)
-FROM registry.redhat.io/ubi8/ubi-minimal:latest
+# Use the Red Hat Universal Base Image 9 Minimal
+FROM registry.redhat.io/ubi9/ubi-minimal:latest
 
 # Set a working directory
 WORKDIR /app
