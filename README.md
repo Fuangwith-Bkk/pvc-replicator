@@ -51,3 +51,8 @@ oc apply -f pvc-replicator-pvc.yaml -n test1 # Adjust namespace as needed
 ### 3. Deploy the PVC Replicator Application
 cd openshift/
 oc apply -f pvc-replicator-deployment.yaml -n test1 # Adjust namespace as needed
+
+![](./doc/1.Topology.png "")
+![](./doc/2.Env.png "")
+![](./doc/3.pod.png "")
+![](./doc/4.pvc.png "")
